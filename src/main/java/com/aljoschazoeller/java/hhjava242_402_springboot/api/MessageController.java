@@ -47,7 +47,7 @@ public class MessageController {
             return ResponseEntity.ok(response);
         } else {
             responseInfo.setCount(0);
-            responseInfo.setMessage("Not able to find message with ID " + id);
+            responseInfo.setMessage("Message with ID " + id + " not found.");
             response.setInfo(responseInfo);
             return ResponseEntity.status(404).body(response);
         }
