@@ -73,6 +73,21 @@ public class MessageController {
         return body;
     }
 
+    @PutMapping("/{id}")
+    public Message updateMessage(@RequestBody Message body, @PathVariable String id) {
+        Optional<Message> messageOptional = messages.stream()
+                .filter((message) -> message.getId().equals(id))
+                .findFirst();
+
+        if (messageOptional.isPresent()) {
+            Message existingMessage = messageOptional.get();
+            existingMessage.setName(body.getName());
+            existingMessage.setMessage(body.getMessage());
+            return existingMessage;
+        }
+        return null;
+    }
+
     @DeleteMapping("/{id}")
     public String deleteMessage(@PathVariable String id) {
         boolean isRemoved = messages.removeIf(message -> message.getId().equals(id));
