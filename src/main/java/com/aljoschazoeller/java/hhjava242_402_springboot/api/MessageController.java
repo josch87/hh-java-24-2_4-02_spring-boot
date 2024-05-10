@@ -1,6 +1,7 @@
 package com.aljoschazoeller.java.hhjava242_402_springboot.api;
 
 import com.aljoschazoeller.java.hhjava242_402_springboot.domain.Message;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.ZonedDateTime;
@@ -29,12 +30,27 @@ public class MessageController {
     }
 
     @GetMapping("{id}")
-    public Message getMessage(@PathVariable String id) {
+    public ResponseEntity<ApiResponse<Message>> getMessage(@PathVariable String id) {
         Optional<Message> messageOptional = messages.stream()
                 .filter((message) -> message.getId().equals(id))
                 .findFirst();
 
-        return messageOptional.orElse(null);
+        ResponseInfo responseInfo = new ResponseInfo();
+        responseInfo.setTimestamp(ZonedDateTime.now());
+
+        ApiResponse<Message> response = new ApiResponse<>();
+
+        if (messageOptional.isPresent()) {
+            responseInfo.setCount(1);
+            response.setInfo(responseInfo);
+            response.setData(messageOptional.get());
+            return ResponseEntity.ok(response);
+        } else {
+            responseInfo.setCount(0);
+            responseInfo.setMessage("Not able to find message with ID " + id);
+            response.setInfo(responseInfo);
+            return ResponseEntity.status(404).body(response);
+        }
     }
 
     @PostMapping

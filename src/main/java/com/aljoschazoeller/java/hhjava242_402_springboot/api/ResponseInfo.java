@@ -10,4 +10,5 @@ import java.time.ZonedDateTime;
 public class ResponseInfo {
     private int count;
     private ZonedDateTime timestamp;
+    private String message;
 }
