@@ -85,18 +85,30 @@ public class MessageController {
     }
 
     @PutMapping("/{id}")
-    public Message updateMessage(@RequestBody Message body, @PathVariable String id) {
+    public ResponseEntity<ApiResponse<Message>> updateMessage(@RequestBody Message body, @PathVariable String id) {
         Optional<Message> messageOptional = messages.stream()
                 .filter((message) -> message.getId().equals(id))
                 .findFirst();
+
+        ResponseInfo responseInfo = new ResponseInfo();
+        responseInfo.setTimestamp(ZonedDateTime.now());
+        ApiResponse<Message> response = new ApiResponse<>();
+
 
         if (messageOptional.isPresent()) {
             Message existingMessage = messageOptional.get();
             existingMessage.setName(body.getName());
             existingMessage.setMessage(body.getMessage());
-            return existingMessage;
+            responseInfo.setMessage("Updated message successfully.");
+
+            response.setInfo(responseInfo);
+            response.setData(existingMessage);
+            return ResponseEntity.ok().body(response);
         }
-        return null;
+        responseInfo.setMessage("Message with ID " + id + " not found.");
+        response.setInfo(responseInfo);
+
+        return ResponseEntity.status(404).body(response);
     }
 
     @DeleteMapping("/{id}")
