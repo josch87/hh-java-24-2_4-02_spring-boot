@@ -4,7 +4,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/messages")
@@ -15,6 +17,15 @@ public class MessageController {
     @GetMapping
     public List<Message> getMessages() {
         return messages;
+    }
+
+    @GetMapping("{id}")
+    public Message getMessage(@PathVariable String id) {
+        Optional<Message> messageOptional = messages.stream()
+                .filter((message) -> message.getId().equals(id))
+                .findFirst();
+
+        return messageOptional.orElse(null);
     }
 
     @PostMapping
