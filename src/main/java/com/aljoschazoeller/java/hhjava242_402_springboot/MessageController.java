@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/messages")
@@ -18,6 +19,7 @@ public class MessageController {
 
     @PostMapping
     public Message addMessage(@RequestBody Message body) {
+        body.setId(UUID.randomUUID().toString());
         messages.add(body);
         return body;
     }
@@ -30,5 +32,4 @@ public class MessageController {
         }
         return "Message with ID " + id + " not found";
     }
-
 }
