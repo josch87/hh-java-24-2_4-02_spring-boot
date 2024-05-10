@@ -100,11 +100,22 @@ public class MessageController {
     }
 
     @DeleteMapping("/{id}")
-    public String deleteMessage(@PathVariable String id) {
+    public ResponseEntity<ApiResponse<Message>> deleteMessage(@PathVariable String id) {
         boolean isRemoved = messages.removeIf(message -> message.getId().equals(id));
+
+        ResponseInfo responseInfo = new ResponseInfo();
+        responseInfo.setTimestamp(ZonedDateTime.now());
+        ApiResponse<Message> response = new ApiResponse<>();
+
         if (isRemoved) {
-            return "Deleted message with ID " + id;
+            responseInfo.setMessage("Message successfully deleted.");
+            responseInfo.setCount(0);
+            response.setInfo(responseInfo);
+            return ResponseEntity.status(200).body(response);
         }
-        return "Message with ID " + id + " not found";
+        responseInfo.setMessage("Message with ID " + id + " not found.");
+        responseInfo.setCount(0);
+        response.setInfo(responseInfo);
+        return ResponseEntity.status(404).body(response);
     }
 }
