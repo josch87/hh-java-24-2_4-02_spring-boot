@@ -19,13 +19,26 @@ public class MessageController {
     @GetMapping
     public ApiResponse<List<Message>> getMessages() {
         ResponseInfo responseInfo = new ResponseInfo();
-        responseInfo.setCount(messages.size());
+        int messageSize = messages.size();
+        responseInfo.setCount(messageSize);
         responseInfo.setTimestamp(ZonedDateTime.now());
+        String responseInfoMessage;
 
         ApiResponse<List<Message>> response = new ApiResponse<>();
+
+        if (messages.isEmpty()) {
+            responseInfo.setMessage("No messages found.");
+            response.setInfo((responseInfo));
+            return response;
+        } else if (messageSize == 1) {
+            responseInfoMessage = "Found 1 message.";
+        } else {
+            responseInfoMessage = "Found " + messageSize + " messages.";
+        }
+
+        responseInfo.setMessage(responseInfoMessage);
         response.setInfo(responseInfo);
         response.setData(messages);
-
         return response;
     }
 
