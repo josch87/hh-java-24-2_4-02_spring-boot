@@ -1,6 +1,8 @@
 package com.aljoschazoeller.java.hhjava242_402_springboot.api;
 
 import com.aljoschazoeller.java.hhjava242_402_springboot.domain.Message;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -67,10 +69,19 @@ public class MessageController {
     }
 
     @PostMapping
-    public Message addMessage(@RequestBody Message body) {
+    public ResponseEntity<ApiResponse<Message>> addMessage(@RequestBody Message body) {
         body.setId(UUID.randomUUID().toString());
         messages.add(body);
-        return body;
+
+        ResponseInfo responseInfo = new ResponseInfo();
+        responseInfo.setCount(1);
+        responseInfo.setMessage("Message successfully created.");
+        responseInfo.setTimestamp(ZonedDateTime.now());
+        ApiResponse<Message> response = new ApiResponse<>();
+        response.setInfo(responseInfo);
+        response.setData(body);
+
+        return ResponseEntity.status(201).body(response);
     }
 
     @PutMapping("/{id}")
