@@ -1,4 +1,4 @@
-package com.aljoschazoeller.java.hhjava242_402_springboot;
+package com.aljoschazoeller.java.hhjava242_402_springboot.api;
 
 import org.springframework.web.bind.annotation.*;
 
