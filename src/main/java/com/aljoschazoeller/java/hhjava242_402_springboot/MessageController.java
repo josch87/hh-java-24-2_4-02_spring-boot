@@ -21,4 +21,14 @@ public class MessageController {
         messages.add(body);
         return body;
     }
+
+    @DeleteMapping("/{id}")
+    public String deleteMessage(@PathVariable String id) {
+        boolean isRemoved = messages.removeIf(message -> message.getId().equals(id));
+        if (isRemoved) {
+            return "Deleted message with ID " + id;
+        }
+        return "Message with ID " + id + " not found";
+    }
+
 }
