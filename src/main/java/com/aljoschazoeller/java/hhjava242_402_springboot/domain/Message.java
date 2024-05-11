@@ -17,10 +17,11 @@ public class Message {
     private ZonedDateTime updatedAt;
 
     public Message(String id, String name, String message) {
+        ZonedDateTime currentTime = ZonedDateTime.now();
         this.id = id;
         this.name = name;
         this.message = message;
-        this.createdAt = ZonedDateTime.now();
-        this.updatedAt = ZonedDateTime.now();
+        this.createdAt = currentTime;
+        this.updatedAt = currentTime;
     }
 }
