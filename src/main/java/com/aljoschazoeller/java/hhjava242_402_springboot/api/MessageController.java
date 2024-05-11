@@ -70,8 +70,12 @@ public class MessageController {
 
     @PostMapping
     public ResponseEntity<ApiResponse<Message>> addMessage(@RequestBody Message body) {
-        body.setId(UUID.randomUUID().toString());
-        messages.add(body);
+        Message newMessage = Message.builder()
+                .id(UUID.randomUUID().toString())
+                .name(body.getName())
+                .message(body.getMessage())
+                .build();
+        messages.add(newMessage);
 
         ResponseInfo responseInfo = new ResponseInfo();
         responseInfo.setCount(1);
@@ -79,7 +83,7 @@ public class MessageController {
         responseInfo.setTimestamp(ZonedDateTime.now());
         ApiResponse<Message> response = new ApiResponse<>();
         response.setInfo(responseInfo);
-        response.setData(body);
+        response.setData(newMessage);
 
         return ResponseEntity.status(201).body(response);
     }

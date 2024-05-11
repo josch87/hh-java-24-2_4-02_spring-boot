@@ -1,5 +1,6 @@
 package com.aljoschazoeller.java.hhjava242_402_springboot.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -16,6 +17,7 @@ public class Message {
     private ZonedDateTime createdAt;
     private ZonedDateTime updatedAt;
 
+    @Builder
     public Message(String id, String name, String message) {
         ZonedDateTime currentTime = ZonedDateTime.now();
         this.id = id;
@@ -25,3 +27,4 @@ public class Message {
         this.updatedAt = currentTime;
     }
 }
+
