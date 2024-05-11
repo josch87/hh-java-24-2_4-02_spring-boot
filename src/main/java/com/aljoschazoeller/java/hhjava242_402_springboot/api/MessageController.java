@@ -99,6 +99,7 @@ public class MessageController {
             Message existingMessage = messageOptional.get();
             existingMessage.setName(body.getName());
             existingMessage.setMessage(body.getMessage());
+            existingMessage.setUpdatedAt(ZonedDateTime.now());
             responseInfo.setMessage("Updated message successfully.");
 
             response.setInfo(responseInfo);
