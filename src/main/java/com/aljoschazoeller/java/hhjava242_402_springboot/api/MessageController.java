@@ -1,8 +1,6 @@
 package com.aljoschazoeller.java.hhjava242_402_springboot.api;
 
 import com.aljoschazoeller.java.hhjava242_402_springboot.domain.Message;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -97,7 +95,6 @@ public class MessageController {
         ResponseInfo responseInfo = new ResponseInfo();
         responseInfo.setTimestamp(ZonedDateTime.now());
         ApiResponse<Message> response = new ApiResponse<>();
-
 
         if (messageOptional.isPresent()) {
             Message existingMessage = messageOptional.get();
